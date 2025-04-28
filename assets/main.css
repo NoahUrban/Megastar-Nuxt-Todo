@@ -1,0 +1,33 @@
+@import './base.css';
+
+* {
+  font-family: 'Poppins', sans-serif;
+}
+
+html, body, #__nuxt, #app {
+  background-color: #1a1a1a;
+  height: 750px;
+  max-width: 375px;
+  margin: 0 auto;
+  position: relative;
+  overflow: hidden;
+}
+
+.v-main {
+  height: calc(100% - 64px); /* subtract header/footer height if needed */
+  overflow-y: auto; /* allow inner scroll */
+}
+
+a,
+.green {
+  text-decoration: none;
+  color: hsla(160, 100%, 37%, 1);
+  transition: 0.4s;
+  padding: 3px;
+}
+
+@media (hover: hover) {
+  a:hover {
+    background-color: hsla(160, 100%, 37%, 0.2);
+  }
+}
