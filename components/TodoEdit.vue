@@ -1,10 +1,9 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import { useTodoListStore } from '@/stores/test'
+import { useTodoListStore } from '~/stores/todo'
 
 const store = useTodoListStore()
 
-// Non-nullable computed reference to currentTodo
 const currentTodo = computed(() => store.currentTodo!)
 
 const task = ref(currentTodo.value.task)
@@ -23,19 +22,17 @@ const updateTodo = () => {
   store.updateTodo(updatedTodo)
 }
 
-// Method to toggle edit form
 const disableEditTodoForm = () => {
   store.triggerEditTodoForm()
 }
 </script>
 
-
 <template>
   <div class="edit-todo-container">
     <hr />
     <div class="form-header">
-      <v-btn icon @click="disableEditTodoForm" variant="plain">
-        <v-img src="@/assets/arrow.svg" alt="arrow" max-width="24" />
+      <v-btn icon @click="disableEditTodoForm" variant="plain" class="back-btn">
+        <v-img src="@/assets/arrow.svg" alt="arrow" class="icon-24" />
       </v-btn>
       <h1>Edit ToDo</h1>
     </div>
@@ -66,7 +63,7 @@ const disableEditTodoForm = () => {
         class="input-field"
       >
         <template #append-inner>
-          <v-img src="@/assets/Vector.svg" alt="dropdown" max-width="16" />
+          <v-img src="@/assets/Vector.svg" alt="dropdown" class="icon-16" />
         </template>
       </v-select>
     </div>
@@ -85,7 +82,7 @@ const disableEditTodoForm = () => {
         class="input-field"
       >
         <template #append-inner>
-          <v-img src="@/assets/Vector.svg" alt="dropdown" max-width="16" />
+          <v-img src="@/assets/Vector.svg" alt="dropdown" class="icon-16" />
         </template>
       </v-select>
     </div>
@@ -183,5 +180,13 @@ hr {
   background-color: #3f3c4e;
   border: none;
   border-radius: 8px;
+}
+
+.icon-24 {
+  max-width: 24px;
+}
+
+.icon-16 {
+  max-width: 16px;
 }
 </style>

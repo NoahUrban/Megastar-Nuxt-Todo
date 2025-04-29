@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { useTodoListStore } from '@/stores/test'
+import { useTodoListStore } from '~/stores/todo'
 
 const store = useTodoListStore()
 
@@ -16,12 +16,12 @@ const addTodo = () => {
       completed: completed.value
     }
     
-    store.addTodo(todo);
-    store.triggerAddTodoForm();
-    
-    task.value = '';
-    user.value = '';
-    completed.value = '';
+    store.addTodo(todo)
+    store.triggerAddTodoForm()
+
+    task.value = ''
+    user.value = ''
+    completed.value = ''
   }
 }
 
@@ -34,8 +34,8 @@ const disableAddTodoForm = () => {
   <div :class="['add-todo-container', { 'slide-up': store.addTodoForm }]">
     <hr />
     <div class="form-header">
-      <v-btn icon @click="disableAddTodoForm" variant="plain">
-        <v-img src="@/assets/arrow.svg" alt="arrow" max-width="24" />
+      <v-btn icon @click="disableAddTodoForm" variant="plain" class="back-btn">
+        <v-img src="@/assets/arrow.svg" alt="arrow" class="icon-24" />
       </v-btn>
       <h1>Add ToDo</h1>
     </div>
@@ -57,7 +57,7 @@ const disableAddTodoForm = () => {
         :items="[
           {title: 'User 1', value: 1},
           {title: 'User 2', value: 2},
-          {title: 'User 3', value: 3},
+          {title: 'User 3', value: 3}
         ]"
         placeholder="User"
         variant="solo"
@@ -66,7 +66,7 @@ const disableAddTodoForm = () => {
         class="input-field"
       >
         <template #append-inner>
-          <v-img src="@/assets/Vector.svg" alt="dropdown" max-width="16" />
+          <v-img src="@/assets/Vector.svg" alt="dropdown" class="icon-16" />
         </template>
       </v-select>
     </div>
@@ -76,7 +76,7 @@ const disableAddTodoForm = () => {
         v-model="completed"
         :items="[
           { title: 'Open', value: false },
-          { title: 'Closed', value: true },
+          { title: 'Closed', value: true }
         ]"
         placeholder="Status"
         variant="solo"
@@ -85,7 +85,7 @@ const disableAddTodoForm = () => {
         class="input-field"
       >
         <template #append-inner>
-          <v-img src="@/assets/Vector.svg" alt="dropdown" max-width="16" />
+          <v-img src="@/assets/Vector.svg" alt="dropdown" class="icon-16" />
         </template>
       </v-select>
     </div>
@@ -189,5 +189,13 @@ hr {
   background-color: #3f3c4e;
   border: none;
   border-radius: 8px;
+}
+
+.icon-24 {
+  max-width: 24px;
+}
+
+.icon-16 {
+  max-width: 16px;
 }
 </style>

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useTodoListStore } from '@/stores/test'
+import { useTodoListStore } from '~/stores/todo'
 import { ref } from 'vue'
 
 const store = useTodoListStore()
@@ -13,13 +13,8 @@ const searchTodos = () => {
 </script>
 
 <template>
-  <v-card
-    class="px-4 py-2 mx-3 mt-5"
-    color="#292639"
-    rounded="lg"
-    flat
-  >
-    <div class="d-flex align-center w-100">
+  <v-card class="search-card" rounded="lg" flat>
+    <div class="search-row">
       <v-text-field
         v-model="query"
         placeholder="Search Todo's"
@@ -28,39 +23,49 @@ const searchTodos = () => {
         single-line
         density="compact"
         color="white"
-        class="flex-grow-1"
+        class="search-input"
         @input="searchTodos"
-      >
-        <template #prepend-inner>
-          <v-icon icon="mdi-magnify" color="white" />
-        </template>
-      </v-text-field>
-
-      <!-- Explicit width and padding for visibility -->
-      <v-btn
-  icon
-  @click="searchTodos"
-  variant="text"
-  class="ml-2"
-  style="min-width: 40px; height: 40px;"
->
-  <v-img
-    src="@/assets/search.svg"
-    alt="search"
-    width="24"
-    height="24"
-    cover
-  />
-</v-btn>
-
+      />
+      <v-btn icon @click="searchTodos" variant="text" class="search-button">
+        <v-img
+          src="@/assets/search.svg"
+          alt="search"
+          class="search-icon"
+          cover
+        />
+      </v-btn>
     </div>
   </v-card>
 </template>
 
-
-
-
 <style scoped>
+.search-card {
+  padding: 8px 16px;
+  margin: 20px 12px 0;
+  background-color: #292639;
+}
+
+.search-row {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.search-input {
+  flex-grow: 1;
+}
+
+.search-button {
+  margin-left: 8px;
+  min-width: 40px;
+  height: 40px;
+}
+
+.search-icon {
+  width: 20px;
+  height: 20px;
+}
+
 .v-text-field input {
   color: white !important;
   font-size: 16px;

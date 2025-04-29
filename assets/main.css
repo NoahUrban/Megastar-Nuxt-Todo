@@ -4,18 +4,41 @@
   font-family: 'Poppins', sans-serif;
 }
 
+.app-container {
+  height: 750px;
+  max-width: 375px;
+  margin: 0 auto;
+  background-color: #1a1a1a;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-container {
+  height: 750px;
+  min-width: 375px;
+  max-width: 375px;  
+  margin: 0 auto;    
+  background-color: #070417;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
 html, body, #__nuxt, #app {
   background-color: #1a1a1a;
   height: 750px;
-  max-width: 375px;
+  max-width: 375px; 
   margin: 0 auto;
   position: relative;
   overflow: hidden;
 }
 
 .v-main {
-  height: calc(100% - 64px); /* subtract header/footer height if needed */
-  overflow-y: auto; /* allow inner scroll */
+  height: calc(100% - 64px);
+  overflow-y: auto;
 }
 
 a,

@@ -1,56 +1,88 @@
 <script setup lang="ts">
-import { useTodoListStore } from '@/stores/test'
+import { useTodoListStore } from '~/stores/todo'
 
 const store = useTodoListStore()
 </script>
 
 <template>
-  <v-app-bar
-    flat
-    color="#292639"
-    height="200px"
-    class="d-flex flex-column justify-space-between shadow"
-    style="max-width: 375px; margin: 0 auto; position: relative;"
-  >
-    <div class="d-flex justify-space-between align-center w-100 px-4 pt-4">
-      <h1 class="text-white text-h4 font-weight-bold">ToDo's</h1>
-      <v-img src="@/assets/dots.svg" alt="dots" max-width="24" />
+  <header class="main-header">
+    <div class="header-content">
+      <h1 class="header-title">ToDo's</h1>
+      <v-img class="dots-icon" src="@/assets/dots.svg" alt="dots" />
     </div>
 
-    <div class="d-flex justify-center w-100 pb-3">
+    <div class="tabs-container">
       <v-btn
         v-for="tab in store.tabs"
         :key="tab"
-        variant="text"
         class="tab-button"
-        :class="{ active: store.activeTab === tab }"
-        :style="{ opacity: store.activeTab !== tab ? '0.7' : '1' }"
+        :class="{ active: store.activeTab === tab, inactive: store.activeTab !== tab }"
         @click="store.updateActiveTab(tab)"
       >
         {{ tab }}
       </v-btn>
     </div>
-  </v-app-bar>
+  </header>
 </template>
 
-<style scoped>
-/* .shadow {
-  box-shadow: 0px 2px 10px 0px #756d9c80;
-} */
 
-/* .tab-button {
+<style scoped>
+.main-header {
+  width: 100%;
+  max-height: 151px;
+  max-width: 375px;
+  margin: 0 auto;
+  background-color: #292639;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  box-sizing: border-box;
+  box-shadow: 0 4px 12px #756D9C40;
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+}
+
+.header-title {
+  color: white;
+  font-size: 24px;
+  font-weight: bold;
+  line-height: 32px;
+}
+
+.dots-icon {
+  max-width: 24px;
+}
+
+.tabs-container {
+  display: flex;
+  justify-content: center;
+  margin-top: auto;
+  padding: 16px 0 0;
+}
+
+.tab-button {
   background-color: #292639;
   color: white;
   font-size: 18px;
   line-height: 27px;
   min-width: 96px;
-  margin: 0 3rem;
-  padding-bottom: 10px;
-  position: relative;
-  bottom: -10px;
-} */
+  margin: 0 40px;
+  padding: 0;
+}
 
-/* .active {
+.tab-button.inactive {
+  opacity: 0.7;
+}
+
+.tab-button.active {
   border-bottom: 3px solid #ffffff;
-} */
+  opacity: 1;
+}
+
+
 </style>

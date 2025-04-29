@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { useTodoListStore } from '@/stores/test'
+import { useTodoListStore } from '~/stores/todo'
 import { onMounted } from 'vue'
-import type { Todo } from '@/stores/test'
+import type { Todo } from '~/stores/todo'
 
 
 const store = useTodoListStore()
@@ -39,7 +39,7 @@ const toggleDropdown = (id: number) => {
         :key="todo.id"
         cols="12"
       >
-        <v-card class="pa-3" rounded="lg" color="#292639" dark>
+        <v-card class="todo-card">
           <v-row align="center" no-gutters>
             <v-col cols="auto">
               <v-btn
@@ -52,18 +52,17 @@ const toggleDropdown = (id: number) => {
                 </template>
                 <template v-else>
                   <v-img
+                    class="completed-img"
                     src="@/assets/closed.svg"
                     alt="completed status"
-                    max-width="24"
                   />
-                  <!-- <div class="circle-2" /> -->
                 </template>
               </v-btn>
             </v-col>
 
             <v-col>
               <h3 class="text-subtitle-2 mb-1">{{ todo.task }}</h3>
-              <v-chip small class="ma-0" color="#3F3C4E">
+              <v-chip class="user-chip" small>
                 User: {{ todo.user }}
               </v-chip>
             </v-col>
@@ -75,9 +74,9 @@ const toggleDropdown = (id: number) => {
                 @click="toggleDropdown(todo.id)"
               >
                 <v-img
+                  class="dots-img"
                   src="@/assets/dots.svg"
                   alt="dots"
-                  max-width="20"
                 />
               </v-btn>
 
@@ -88,10 +87,10 @@ const toggleDropdown = (id: number) => {
                 offset-y
               >
                 <template #activator="{ props }">
-                  <div v-bind="props" style="display: none;" />
+                  <div v-bind="props" class="hidden-activator" />
                 </template>
 
-                <v-list class="bg-[#070417b5]" rounded>
+                <v-list class="dropdown-list" rounded>
                   <v-list-item
                     @click="editTodo(todo)"
                     class="text-white"
@@ -115,9 +114,11 @@ const toggleDropdown = (id: number) => {
   </v-container>
 </template>
 
+
 <style scoped>
 .todo-list-wrapper {
-  max-height: 435px;
+  max-height: 450px;
+  padding-top: 0;
   overflow-y: auto;
 }
 
@@ -135,6 +136,13 @@ const toggleDropdown = (id: number) => {
   border-radius: 8px;
 }
 
+.todo-card {
+  padding: 12px;
+  border-radius: 12px;
+  background-color: #292639;
+  color: white;
+}
+
 .circle {
   width: 24px;
   height: 24px;
@@ -142,15 +150,30 @@ const toggleDropdown = (id: number) => {
   background-color: #3F3C4E;
 }
 
-.circle-2 {
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  background-color: #37ff00;
+.completed-img {
+  max-width: 24px;
+}
+
+.user-chip {
+  margin: 0;
+  background-color: #3F3C4E;
+}
+
+.dots-img {
+  max-width: 20px;
+}
+
+.hidden-activator {
+  display: none;
+}
+
+.dropdown-list {
+  background-color: #070417b5;
 }
 
 .dropdown-line {
   opacity: 0.3;
   margin: 0;
 }
+
 </style>
