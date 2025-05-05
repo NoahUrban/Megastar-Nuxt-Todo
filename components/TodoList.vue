@@ -155,8 +155,13 @@ const toggleDropdown = (id: number) => {
 }
 
 .user-chip {
+  height: 24px;
+  width: 60px;
+  border-radius: 6px;
   margin: 0;
   background-color: #3F3C4E;
+  color: #BDBDBD;
+  font-size: 12px;
 }
 
 .dots-img {
