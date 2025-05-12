@@ -32,7 +32,7 @@ const disableEditTodoForm = () => {
     <hr />
     <div class="form-header">
       <v-btn icon @click="disableEditTodoForm" variant="plain" class="back-btn">
-        <v-img src="@/assets/arrow.svg" alt="arrow" class="icon-24" />
+        <img src="@/assets/arrow.svg" alt="arrow"/>
       </v-btn>
       <h1>Edit ToDo</h1>
     </div>
@@ -171,6 +171,11 @@ const disableEditTodoForm = () => {
   background-color: #070417 !important;
   color: white;
 }
+
+img {
+  width: 24px;
+  height: 24px;
+} 
 
 hr {
   height: 4px;

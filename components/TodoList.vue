@@ -51,11 +51,7 @@ const toggleDropdown = (id: number) => {
                   <div class="circle" />
                 </template>
                 <template v-else>
-                  <v-img
-                    class="completed-img"
-                    src="@/assets/closed.svg"
-                    alt="completed status"
-                  />
+                  <img src="@/assets/closed.svg" alt="completed status" class="completed-img" />
                 </template>
               </v-btn>
             </v-col>
@@ -73,11 +69,7 @@ const toggleDropdown = (id: number) => {
                 variant="text"
                 @click="toggleDropdown(todo.id)"
               >
-                <v-img
-                  class="dots-img"
-                  src="@/assets/dots.svg"
-                  alt="dots"
-                />
+              <img src="@/assets/dots.svg" alt="dots" class="dots-img" />
               </v-btn>
 
               <v-menu
@@ -143,25 +135,32 @@ const toggleDropdown = (id: number) => {
   color: white;
 }
 
+.text-subtitle-2 {
+  padding-left: 10px;
+}
+
 .circle {
-  width: 24px;
-  height: 24px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
   background-color: #3F3C4E;
 }
 
 .completed-img {
-  max-width: 24px;
+  width: 44px;
+  height: 44px;
 }
 
 .user-chip {
-  height: 24px;
-  width: 60px;
+  height: 20px;
+  width: 50px;
   border-radius: 6px;
-  margin: 0;
+  margin-left: 10px;
   background-color: #3F3C4E;
   color: #BDBDBD;
   font-size: 12px;
+  text-align: left;
+  padding-left: 7px;
 }
 
 .dots-img {
@@ -181,4 +180,9 @@ const toggleDropdown = (id: number) => {
   margin: 0;
 }
 
+.my-4 {
+  width: 78px;
+  margin: 0px auto;
+  border: 1px solid white;
+}
 </style>

@@ -73,6 +73,7 @@ const store = useTodoListStore()
   min-width: 96px;
   margin: 0 40px;
   padding: 0;
+  border: none;
 }
 
 .tab-button.inactive {
@@ -81,6 +82,7 @@ const store = useTodoListStore()
 
 .tab-button.active {
   border-bottom: 3px solid #ffffff;
+  font-weight: bold;
   opacity: 1;
 }
 

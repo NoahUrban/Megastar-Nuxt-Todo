@@ -26,14 +26,12 @@ const searchTodos = () => {
         class="search-input"
         @input="searchTodos"
       />
-      <v-btn icon @click="searchTodos" variant="text" class="search-button">
-        <v-img
-          src="@/assets/search.svg"
-          alt="search"
-          class="search-icon"
-          cover
-        />
-      </v-btn>
+      <img
+        src="@/assets/search.svg"
+        alt="search"
+        class="search-icon"
+        @click="searchTodos"
+      />
     </div>
   </v-card>
 </template>
@@ -43,25 +41,22 @@ const searchTodos = () => {
   padding: 8px 16px;
   margin: 20px 12px 0;
   background-color: #292639;
+  color: white;
 }
 
 .search-row {
   display: flex;
   align-items: center;
   width: 100%;
+  padding-bottom: 7px;
 }
 
 .search-input {
   flex-grow: 1;
 }
 
-.search-button {
-  margin-left: 8px;
-  min-width: 40px;
-  height: 40px;
-}
-
 .search-icon {
+  margin-top: 7px;
   width: 20px;
   height: 20px;
 }
@@ -72,8 +67,8 @@ const searchTodos = () => {
 }
 
 ::placeholder {
-  color: white;
+  color: white !important;
   opacity: 1;
-  font-weight: 300;
+  font-weight: 600;
 }
 </style>
