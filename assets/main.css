@@ -6,17 +6,6 @@
 
 .app-container {
   height: 750px;
-  max-width: 375px;
-  margin: 0 auto;
-  background-color: #1a1a1a;
-  position: relative;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-}
-
-.app-container {
-  height: 750px;
   min-width: 375px;
   max-width: 375px;  
   margin: 0 auto;    

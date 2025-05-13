@@ -115,6 +115,7 @@ const disableEditTodoForm = () => {
   width: 375px;
   margin: 0 auto;
   max-height: 700px;
+  margin-top: 17px;
 }
 
 .form-header {

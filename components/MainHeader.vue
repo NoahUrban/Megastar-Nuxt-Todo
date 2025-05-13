@@ -49,7 +49,7 @@ const store = useTodoListStore()
 
 .header-title {
   color: white;
-  font-size: 24px;
+  font-size: 32px;
   font-weight: bold;
   line-height: 32px;
 }

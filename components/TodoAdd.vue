@@ -116,7 +116,7 @@ const disableAddTodoForm = () => {
   border-radius: 20px 20px 0 0;
   width: 375px;
   margin: 0 auto;
-  margin-top: 20px;
+  margin-top: 17px;
   max-height: 700px;
   transform: translateY(100%);
   transition: transform 1.5s ease-in-out;

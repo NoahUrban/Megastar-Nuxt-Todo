@@ -3,7 +3,6 @@ import { useTodoListStore } from '~/stores/todo'
 import { onMounted } from 'vue'
 import type { Todo } from '~/stores/todo'
 
-
 const store = useTodoListStore()
 
 onMounted(() => {
@@ -69,35 +68,14 @@ const toggleDropdown = (id: number) => {
                 variant="text"
                 @click="toggleDropdown(todo.id)"
               >
-              <img src="@/assets/dots.svg" alt="dots" class="dots-img" />
+                <img src="@/assets/dots.svg" alt="dots" class="dots-img" />
               </v-btn>
 
-              <v-menu
-                v-model="todo.dropdown"
-                :close-on-content-click="false"
-                location="bottom end"
-                offset-y
-              >
-                <template #activator="{ props }">
-                  <div v-bind="props" class="hidden-activator" />
-                </template>
-
-                <v-list class="dropdown-list" rounded>
-                  <v-list-item
-                    @click="editTodo(todo)"
-                    class="text-white"
-                  >
-                    <v-list-item-title>Edit ToDo</v-list-item-title>
-                  </v-list-item>
-                  <v-divider class="dropdown-line" />
-                  <v-list-item
-                    @click="markCompleted(todo)"
-                    class="text-white"
-                  >
-                    <v-list-item-title>Mark Completed</v-list-item-title>
-                  </v-list-item>
-                </v-list>
-              </v-menu>
+              <div v-if="todo.dropdown" class="dropdown-menu">
+                <button @click="editTodo(todo)" class="dropdown-item">Edit ToDo</button>
+                <hr class="dropdown-line">
+                <button @click="markCompleted(todo)" class="dropdown-item">Mark Completed</button>
+              </div>
             </v-col>
           </v-row>
         </v-card>
@@ -106,12 +84,12 @@ const toggleDropdown = (id: number) => {
   </v-container>
 </template>
 
-
 <style scoped>
 .todo-list-wrapper {
   max-height: 450px;
   padding-top: 0;
   overflow-y: auto;
+  position: relative;
 }
 
 .todo-list-wrapper::-webkit-scrollbar {
@@ -133,6 +111,7 @@ const toggleDropdown = (id: number) => {
   border-radius: 12px;
   background-color: #292639;
   color: white;
+  position: relative;
 }
 
 .text-subtitle-2 {
@@ -167,17 +146,59 @@ const toggleDropdown = (id: number) => {
   max-width: 20px;
 }
 
-.hidden-activator {
-  display: none;
+.dropdown-menu {
+  position: absolute;
+  top: 37px;
+  right: 8px;
+  display: flex;
+  flex-direction: column;
+  background-color: rgba(7, 4, 23, 0.71);
+  padding: 4px;
+  padding-top: 1px;
+  padding-bottom: 1px;
+  border-radius: 8px;
+  z-index: 10000;
+  min-width: 120px;
 }
 
-.dropdown-list {
-  background-color: #070417b5;
+.dropdown-menu::before {
+  content: '';
+  position: absolute;
+  top: -6px;
+  right: 12px;
+  border-width: 0 4px 7px 4px;
+  border-style: solid;
+  border-color: transparent transparent rgba(7, 4, 23, 0.71) transparent;
+}
+
+.dropdown-item {
+  background-color: transparent;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 300;
+  border-radius: 4px;
+  padding: 8px 12px;
+  margin-bottom: 4px;
+  cursor: pointer;
+  text-align: left;
+  white-space: nowrap;
+  width: 100%;
+}
+
+.dropdown-item:last-child {
+  margin-bottom: 0;
+}
+
+.dropdown-item:hover {
+  background-color: rgba(255, 255, 255, 0.1);
 }
 
 .dropdown-line {
+  margin: 0px auto;
+  margin-top: -5px;
+  width: 90px;
   opacity: 0.3;
-  margin: 0;
+  border-color: white;
 }
 
 .my-4 {

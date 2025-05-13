@@ -22,7 +22,7 @@ const displayAddTodoForm = () => {
         <TodoEdit v-if="store.editTodoForm" />
         
         <v-btn
-          v-if="!store.addTodoForm"
+          v-if="!store.addTodoForm && !store.editTodoForm"
           class="add-todo"
           color="white"
           elevation="2"
