@@ -94,6 +94,7 @@ const disableAddTodoForm = () => {
       <v-btn @click="addTodo" class="finish-button" block size="large">
         Finish
       </v-btn>
+      
       <v-btn @click="disableAddTodoForm" class="quit-button" block size="large">
         Quit
       </v-btn>

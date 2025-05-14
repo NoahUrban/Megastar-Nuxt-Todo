@@ -1,32 +1,37 @@
 <script setup lang="ts">
 import { useTodoListStore } from '~/stores/todo'
-import { onMounted } from 'vue'
+import { onMounted, onBeforeUnmount } from 'vue'
 import type { Todo } from '~/stores/todo'
 
 const store = useTodoListStore()
 
+const handleScroll = () => {
+  store.closeAllDropdowns()
+}
+
 onMounted(() => {
   store.fetchTodos()
+
+  const container = document.querySelector('.todo-list-wrapper')
+  container?.addEventListener('scroll', handleScroll)
+})
+
+onBeforeUnmount(() => {
+  const container = document.querySelector('.todo-list-wrapper')
+  container?.removeEventListener('scroll', handleScroll)
 })
 
 const editTodo = (todo: Todo) => {
-  store.editTodo(todo.id)
-  store.toggleDropdown(todo.id)
-}
-
-const markCompletedToggleless = (todo: Todo) => {
-  store.toggleCompleted(todo.id)
+  store.editTodo(todo.id);
+  store.closeAllDropdowns();
 }
 
 const markCompleted = (todo: Todo) => {
-  store.toggleCompleted(todo.id)
-  store.toggleDropdown(todo.id)
-}
-
-const toggleDropdown = (id: number) => {
-  store.toggleDropdown(id)
+  store.toggleCompleted(todo.id);
+  store.closeAllDropdowns();
 }
 </script>
+
 
 <template>
   <v-divider class="my-4" />
@@ -44,7 +49,7 @@ const toggleDropdown = (id: number) => {
               <v-btn
                 icon
                 variant="text"
-                @click="markCompletedToggleless(todo)"
+                @click="store.toggleCompleted(todo.id)"
               >
                 <template v-if="!todo.completed">
                   <div class="circle" />
@@ -62,20 +67,25 @@ const toggleDropdown = (id: number) => {
               </v-chip>
             </v-col>
 
-            <v-col cols="auto" class="position-relative">
-              <v-btn
-                icon
-                variant="text"
-                @click="toggleDropdown(todo.id)"
+            <v-col cols="auto">
+              <v-menu
+                v-model="todo.dropdown"
+                :close-on-content-click="false"
+                offset-y
+                :attach="false"
               >
-                <img src="@/assets/dots.svg" alt="dots" class="dots-img" />
-              </v-btn>
+                <template #activator="{ props }">
+                  <v-btn icon variant="text" v-bind="props">
+                    <img src="@/assets/dots.svg" alt="dots" class="dots-img" />
+                  </v-btn>
+                </template>
 
-              <div v-if="todo.dropdown" class="dropdown-menu">
-                <button @click="editTodo(todo)" class="dropdown-item">Edit ToDo</button>
-                <hr class="dropdown-line">
-                <button @click="markCompleted(todo)" class="dropdown-item">Mark Completed</button>
-              </div>
+                <div class="dropdown-menu">
+                  <button @click="editTodo(todo)" class="dropdown-item">Edit ToDo</button>
+                  <hr class="dropdown-line" />
+                  <button @click="markCompleted(todo)" class="dropdown-item">Mark Completed</button>
+                </div>
+              </v-menu>
             </v-col>
           </v-row>
         </v-card>
@@ -112,6 +122,14 @@ const toggleDropdown = (id: number) => {
   background-color: #292639;
   color: white;
   position: relative;
+  display: flex;
+  align-items: center;
+  transition: background-color 0.2s ease;
+  cursor: url('@/assets/pointer.svg'), auto;
+}
+
+.todo-card:hover {
+  background-color: #3C3850;
 }
 
 .text-subtitle-2 {
@@ -123,6 +141,12 @@ const toggleDropdown = (id: number) => {
   height: 44px;
   border-radius: 50%;
   background-color: #3F3C4E;
+  transition: background-color 0.2s ease;
+  cursor: url('@/assets/pointer.svg'), auto;
+}
+
+.todo-card:hover .circle {
+  background-color: #292639;
 }
 
 .completed-img {
@@ -147,18 +171,18 @@ const toggleDropdown = (id: number) => {
 }
 
 .dropdown-menu {
-  position: absolute;
-  top: 37px;
-  right: 8px;
   display: flex;
   flex-direction: column;
   background-color: rgba(7, 4, 23, 0.71);
   padding: 4px;
   padding-top: 1px;
+  margin-top: -11px;
   padding-bottom: 1px;
   border-radius: 8px;
-  z-index: 10000;
   min-width: 120px;
+  position: absolute;
+  z-index: 1;
+  transform: translateX(-100px);
 }
 
 .dropdown-menu::before {
@@ -179,10 +203,11 @@ const toggleDropdown = (id: number) => {
   border-radius: 4px;
   padding: 8px 12px;
   margin-bottom: 4px;
-  cursor: pointer;
+  cursor: url('@/assets/pointer.svg'), auto;
   text-align: left;
   white-space: nowrap;
   width: 100%;
+  transition: background-color 0.2s ease;
 }
 
 .dropdown-item:last-child {
