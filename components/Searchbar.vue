@@ -9,12 +9,11 @@ const searchTodos = () => {
   store.closeAllDropdowns()
   store.searchTodos(query.value)
 }
-
 </script>
 
 <template>
-  <v-card class="search-card" rounded="lg" flat>
-    <div class="search-row">
+  <v-card class="searchbar__card" rounded="lg" flat>
+    <div class="searchbar__row">
       <v-text-field
         v-model="query"
         placeholder="Search Todo's"
@@ -23,13 +22,13 @@ const searchTodos = () => {
         single-line
         density="compact"
         color="white"
-        class="search-input"
+        class="searchbar__input"
         @input="searchTodos"
       />
       <img
         src="@/assets/search.svg"
         alt="search"
-        class="search-icon"
+        class="searchbar__icon"
         @click="searchTodos"
       />
     </div>
@@ -37,28 +36,32 @@ const searchTodos = () => {
 </template>
 
 <style scoped>
-.search-card {
+.searchbar__card {
   padding: 8px 16px;
   margin: 20px 12px 0;
   background-color: #292639;
   color: white;
 }
 
-.search-row {
+.searchbar__row {
   display: flex;
   align-items: center;
   width: 100%;
   padding-bottom: 7px;
 }
 
-.search-input {
+.searchbar__input {
   flex-grow: 1;
 }
 
-.search-icon {
+.searchbar__icon {
   margin-top: 7px;
   width: 20px;
   height: 20px;
+}
+
+.searchbar__icon:hover {
+  cursor: pointer;
 }
 
 .v-text-field input {

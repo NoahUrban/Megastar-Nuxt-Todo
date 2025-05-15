@@ -1,25 +1,25 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, reactive } from 'vue'
 import { useTodoListStore } from '~/stores/todo'
 
 const store = useTodoListStore()
 
 const currentTodo = computed(() => store.currentTodo!)
 
-const task = ref(currentTodo.value.task)
-const user = ref(currentTodo.value.user)
-const completed = ref<boolean | ''>(currentTodo.value.completed)
+const todo = reactive({
+  task: currentTodo.value.task,
+  user: currentTodo.value.user,
+  completed: currentTodo.value.completed
+})
 
 const updateTodo = () => {
-  const updatedTodo = {
-    task: task.value,
-    user: user.value,
-    completed: completed.value as boolean,
+  store.updateTodo({
+    task: todo.task,
+    user: todo.user,
+    completed: todo.completed,
     id: currentTodo.value.id,
-    dropdown: currentTodo.value.dropdown,
-  }
-
-  store.updateTodo(updatedTodo)
+    dropdown: currentTodo.value.dropdown
+  })
 }
 
 const disableEditTodoForm = () => {
@@ -28,29 +28,29 @@ const disableEditTodoForm = () => {
 </script>
 
 <template>
-  <div class="edit-todo-container">
-    <hr />
-    <div class="form-header">
-      <v-btn icon @click="disableEditTodoForm" variant="plain" class="back-btn">
+  <div class="edit-todo__container">
+    <hr class="edit-todo__divider" />
+    <div class="edit-todo__header">
+      <v-btn icon @click="disableEditTodoForm" variant="plain" class="edit-todo__back-btn">
         <img src="@/assets/arrow.svg" alt="arrow"/>
       </v-btn>
-      <h1>Edit ToDo</h1>
+      <h1 class="edit-todo__title">Edit ToDo</h1>
     </div>
 
-    <div class="todo-items">
+    <div class="edit-todo__item">
       <v-text-field
-        v-model="task"
+        v-model="todo.task"
         placeholder="Task"
         variant="solo"
         hide-details
         color="white"
-        class="input-field"
+        class="edit-todo__input"
       />
     </div>
 
-    <div class="todo-items">
+    <div class="edit-todo__item">
       <v-select
-        v-model="user"
+        v-model="todo.user"
         :items="[
           { title: 'User 1', value: 1 },
           { title: 'User 2', value: 2 },
@@ -60,17 +60,17 @@ const disableEditTodoForm = () => {
         variant="solo"
         hide-details
         color="white"
-        class="input-field"
+        class="edit-todo__input"
       >
         <template #append-inner>
-          <v-img src="@/assets/Vector.svg" alt="dropdown" class="icon-16" />
+          <v-img src="@/assets/Vector.svg" alt="dropdown" class="edit-todo__icon--16" />
         </template>
       </v-select>
     </div>
 
-    <div class="todo-items">
+    <div class="edit-todo__item">
       <v-select
-        v-model="completed"
+        v-model="todo.completed"
         :items="[
           { title: 'Open', value: false },
           { title: 'Closed', value: true },
@@ -79,20 +79,20 @@ const disableEditTodoForm = () => {
         variant="solo"
         hide-details
         color="white"
-        class="input-field"
+        class="edit-todo__input"
       >
         <template #append-inner>
-          <v-img src="@/assets/Vector.svg" alt="dropdown" class="icon-16" />
+          <v-img src="@/assets/Vector.svg" alt="dropdown" class="edit-todo__icon--16" />
         </template>
       </v-select>
     </div>
 
-    <div class="buttons">
-      <v-btn @click="updateTodo" class="finish-button" block size="large">
+    <div class="edit-todo__buttons">
+      <v-btn @click="updateTodo" class="edit-todo__btn--finish" block size="large">
         Finish
       </v-btn>
-      
-      <v-btn @click="disableEditTodoForm" class="quit-button" block size="large">
+
+      <v-btn @click="disableEditTodoForm" class="edit-todo__btn--quit" block size="large">
         Quit
       </v-btn>
     </div>
@@ -100,7 +100,7 @@ const disableEditTodoForm = () => {
 </template>
 
 <style scoped>
-.edit-todo-container {
+.edit-todo__container {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -119,7 +119,7 @@ const disableEditTodoForm = () => {
   margin-top: 17px;
 }
 
-.form-header {
+.edit-todo__header {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -128,7 +128,7 @@ const disableEditTodoForm = () => {
   padding-top: 25px;
 }
 
-.form-header h1 {
+.edit-todo__title {
   flex-grow: 1;
   text-align: center;
   font-size: 24px;
@@ -137,7 +137,7 @@ const disableEditTodoForm = () => {
   padding-right: 50px;
 }
 
-.todo-items {
+.edit-todo__item {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -147,14 +147,14 @@ const disableEditTodoForm = () => {
   position: relative;
 }
 
-.input-field {
+.edit-todo__input {
   width: 100%;
   background-color: #292639 !important;
   border-radius: 5px;
   color: white;
 }
 
-.buttons {
+.edit-todo__buttons {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -163,23 +163,18 @@ const disableEditTodoForm = () => {
   margin-top: 20px;
 }
 
-.finish-button {
+.edit-todo__btn--finish {
   background-color: #6add8a !important;
   color: white;
   margin-bottom: 10px;
 }
 
-.quit-button {
+.edit-todo__btn--quit {
   background-color: #070417 !important;
   color: white;
 }
 
-img {
-  width: 24px;
-  height: 24px;
-} 
-
-hr {
+.edit-todo__divider {
   height: 4px;
   width: 40px;
   margin: 0px auto;
@@ -189,11 +184,7 @@ hr {
   border-radius: 8px;
 }
 
-.icon-24 {
-  max-width: 24px;
-}
-
-.icon-16 {
+.edit-todo__icon--16 {
   max-width: 16px;
 }
 </style>

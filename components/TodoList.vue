@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { useTodoListStore } from '~/stores/todo'
 import { onMounted, onBeforeUnmount } from 'vue'
-import type { Todo } from '~/stores/todo'
+import type { Todo } from '~/models/todo'
 
+//imported model Todo, finish tomorrow
 const store = useTodoListStore()
 
 const handleScroll = () => {
@@ -11,58 +12,48 @@ const handleScroll = () => {
 
 onMounted(() => {
   store.fetchTodos()
-
-  const container = document.querySelector('.todo-list-wrapper')
+  const container = document.querySelector('.todo-list__wrapper')
   container?.addEventListener('scroll', handleScroll)
 })
 
 onBeforeUnmount(() => {
-  const container = document.querySelector('.todo-list-wrapper')
+  const container = document.querySelector('.todo-list__wrapper')
   container?.removeEventListener('scroll', handleScroll)
 })
 
 const editTodo = (todo: Todo) => {
-  store.editTodo(todo.id);
-  store.closeAllDropdowns();
+  store.editTodo(todo.id)
+  store.closeAllDropdowns()
 }
 
 const markCompleted = (todo: Todo) => {
-  store.toggleCompleted(todo.id);
-  store.closeAllDropdowns();
+  store.toggleCompleted(todo.id)
+  store.closeAllDropdowns()
 }
 </script>
 
-
 <template>
-  <v-divider class="my-4" />
+  <v-divider class="todo-list__divider" />
 
-  <v-container class="todo-list-wrapper" fluid>
+  <v-container class="todo-list__wrapper" fluid>
     <v-row dense>
-      <v-col
-        v-for="(todo, index) in store.filteredTodos"
-        :key="todo.id"
-        cols="12"
-      >
-        <v-card class="todo-card">
+      <v-col v-for="(todo, index) in store.filteredTodos" :key="todo.id" cols="12">
+        <v-card class="todo-list__card">
           <v-row align="center" no-gutters>
             <v-col cols="auto">
-              <v-btn
-                icon
-                variant="text"
-                @click="store.toggleCompleted(todo.id)"
-              >
+              <v-btn icon variant="text" @click="store.toggleCompleted(todo.id)">
                 <template v-if="!todo.completed">
-                  <div class="circle" />
+                  <div class="todo-list__circle" />
                 </template>
                 <template v-else>
-                  <img src="@/assets/closed.svg" alt="completed status" class="completed-img" />
+                  <img src="@/assets/closed.svg" alt="completed status" class="todo-list__completed-img" />
                 </template>
               </v-btn>
             </v-col>
 
             <v-col>
-              <h3 class="text-subtitle-2 mb-1">{{ todo.task }}</h3>
-              <v-chip class="user-chip" small>
+              <h3 class="todo-list__task text-subtitle-2 mb-1">{{ todo.task }}</h3>
+              <v-chip class="todo-list__chip" small>
                 User: {{ todo.user }}
               </v-chip>
             </v-col>
@@ -76,14 +67,14 @@ const markCompleted = (todo: Todo) => {
               >
                 <template #activator="{ props }">
                   <v-btn icon variant="text" v-bind="props">
-                    <img src="@/assets/dots.svg" alt="dots" class="dots-img" />
+                    <img src="@/assets/dots.svg" alt="dots" class="todo-list__dots" />
                   </v-btn>
                 </template>
 
-                <div class="dropdown-menu">
-                  <button @click="editTodo(todo)" class="dropdown-item">Edit ToDo</button>
-                  <hr class="dropdown-line" />
-                  <button @click="markCompleted(todo)" class="dropdown-item">Mark Completed</button>
+                <div class="todo-list__dropdown">
+                  <button @click="editTodo(todo)" class="todo-list__dropdown-item">Edit ToDo</button>
+                  <hr class="todo-list__dropdown-line" />
+                  <button @click="markCompleted(todo)" class="todo-list__dropdown-item">Mark Completed</button>
                 </div>
               </v-menu>
             </v-col>
@@ -95,28 +86,29 @@ const markCompleted = (todo: Todo) => {
 </template>
 
 <style scoped>
-.todo-list-wrapper {
-  max-height: 450px;
-  padding-top: 0;
+.todo-list__wrapper {
+  max-height: 470px;
+  padding-top: 0px;
+  margin-top: 10px;
   overflow-y: auto;
   position: relative;
 }
 
-.todo-list-wrapper::-webkit-scrollbar {
+.todo-list__wrapper::-webkit-scrollbar {
   width: 6px;
 }
 
-.todo-list-wrapper::-webkit-scrollbar-track {
+.todo-list__wrapper::-webkit-scrollbar-track {
   background: #292639;
   border-radius: 8px;
 }
 
-.todo-list-wrapper::-webkit-scrollbar-thumb {
+.todo-list__wrapper::-webkit-scrollbar-thumb {
   background-color: #3B3753;
   border-radius: 8px;
 }
 
-.todo-card {
+.todo-list__card {
   padding: 12px;
   border-radius: 12px;
   background-color: #292639;
@@ -128,15 +120,15 @@ const markCompleted = (todo: Todo) => {
   cursor: url('@/assets/pointer.svg'), auto;
 }
 
-.todo-card:hover {
+.todo-list__card:hover {
   background-color: #3C3850;
 }
 
-.text-subtitle-2 {
+.todo-list__task {
   padding-left: 10px;
 }
 
-.circle {
+.todo-list__circle {
   width: 44px;
   height: 44px;
   border-radius: 50%;
@@ -145,16 +137,16 @@ const markCompleted = (todo: Todo) => {
   cursor: url('@/assets/pointer.svg'), auto;
 }
 
-.todo-card:hover .circle {
+.todo-list__card:hover .todo-list__circle {
   background-color: #292639;
 }
 
-.completed-img {
+.todo-list__completed-img {
   width: 44px;
   height: 44px;
 }
 
-.user-chip {
+.todo-list__chip {
   height: 20px;
   width: 50px;
   border-radius: 6px;
@@ -166,18 +158,16 @@ const markCompleted = (todo: Todo) => {
   padding-left: 7px;
 }
 
-.dots-img {
+.todo-list__dots {
   max-width: 20px;
 }
 
-.dropdown-menu {
+.todo-list__dropdown {
   display: flex;
   flex-direction: column;
   background-color: rgba(7, 4, 23, 0.71);
-  padding: 4px;
-  padding-top: 1px;
+  padding: 4px 4px 1px;
   margin-top: -11px;
-  padding-bottom: 1px;
   border-radius: 8px;
   min-width: 120px;
   position: absolute;
@@ -185,7 +175,7 @@ const markCompleted = (todo: Todo) => {
   transform: translateX(-100px);
 }
 
-.dropdown-menu::before {
+.todo-list__dropdown::before {
   content: '';
   position: absolute;
   top: -6px;
@@ -195,7 +185,7 @@ const markCompleted = (todo: Todo) => {
   border-color: transparent transparent rgba(7, 4, 23, 0.71) transparent;
 }
 
-.dropdown-item {
+.todo-list__dropdown-item {
   background-color: transparent;
   color: #ffffff;
   font-size: 13px;
@@ -210,15 +200,15 @@ const markCompleted = (todo: Todo) => {
   transition: background-color 0.2s ease;
 }
 
-.dropdown-item:last-child {
+.todo-list__dropdown-item:last-child {
   margin-bottom: 0;
 }
 
-.dropdown-item:hover {
+.todo-list__dropdown-item:hover {
   background-color: rgba(255, 255, 255, 0.1);
 }
 
-.dropdown-line {
+.todo-list__dropdown-line {
   margin: 0px auto;
   margin-top: -5px;
   width: 90px;
@@ -226,9 +216,10 @@ const markCompleted = (todo: Todo) => {
   border-color: white;
 }
 
-.my-4 {
+.todo-list__divider {
   width: 78px;
   margin: 0px auto;
   border: 1px solid white;
+  margin-top: 10px;
 }
 </style>

@@ -6,17 +6,20 @@ const store = useTodoListStore()
 
 <template>
   <header class="main-header">
-    <div class="header-content">
-      <h1 class="header-title">ToDo's</h1>
-      <v-img class="dots-icon" src="@/assets/dots.svg" alt="dots" />
+    <div class="main-header__content">
+      <h1 class="main-header__title">ToDo's</h1>
+      <v-img class="main-header__icon" src="@/assets/dots.svg" alt="dots" />
     </div>
 
-    <div class="tabs-container">
+    <div class="main-header__tabs">
       <v-btn
         v-for="tab in store.tabs"
         :key="tab"
-        class="tab-button"
-        :class="{ active: store.activeTab === tab, inactive: store.activeTab !== tab }"
+        class="main-header__tab"
+        :class="{
+          'main-header__tab--active': store.activeTab === tab,
+          'main-header__tab--inactive': store.activeTab !== tab
+        }"
         @click="store.updateActiveTab(tab)"
       >
         {{ tab }}
@@ -24,7 +27,6 @@ const store = useTodoListStore()
     </div>
   </header>
 </template>
-
 
 <style scoped>
 .main-header {
@@ -40,32 +42,32 @@ const store = useTodoListStore()
   box-shadow: 0 4px 12px #756D9C40;
 }
 
-.header-content {
+.main-header__content {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 16px;
 }
 
-.header-title {
+.main-header__title {
   color: white;
   font-size: 32px;
   font-weight: bold;
   line-height: 32px;
 }
 
-.dots-icon {
+.main-header__icon {
   max-width: 24px;
 }
 
-.tabs-container {
+.main-header__tabs {
   display: flex;
   justify-content: center;
   margin-top: auto;
   padding: 16px 0 0;
 }
 
-.tab-button {
+.main-header__tab {
   background-color: #292639;
   color: white;
   font-size: 18px;
@@ -76,15 +78,13 @@ const store = useTodoListStore()
   border: none;
 }
 
-.tab-button.inactive {
+.main-header__tab--inactive {
   opacity: 0.7;
 }
 
-.tab-button.active {
+.main-header__tab--active {
   border-bottom: 3px solid #ffffff;
   font-weight: bold;
   opacity: 1;
 }
-
-
 </style>

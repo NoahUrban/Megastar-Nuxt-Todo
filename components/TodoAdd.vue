@@ -1,27 +1,31 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, reactive } from 'vue'
 import { useTodoListStore } from '~/stores/todo'
 
 const store = useTodoListStore()
 
-const task = ref<string | ''>('')
-const user = ref<number | ''>('')
-const completed = ref<boolean | ''>('')
+const todo = reactive<{
+  task: string,
+  user: number | '',
+  completed: boolean | ''
+}>({
+  task: '',
+  user: '',
+  completed: '',
+})
 
 const addTodo = () => {
-  if (task.value && user.value && completed.value !== '') {
-    const todo = {
-      task: task.value,
-      user: user.value,
-      completed: completed.value
-    }
-    
-    store.addTodo(todo)
+  if (todo.task && todo.user && todo.completed !== '') {
+    store.addTodo({
+      task: todo.task,
+      user: todo.user,
+      completed: todo.completed,
+    })
     store.triggerAddTodoForm()
 
-    task.value = ''
-    user.value = ''
-    completed.value = ''
+    todo.task = ''
+    todo.user = ''
+    todo.completed = ''
   }
 }
 
@@ -31,29 +35,29 @@ const disableAddTodoForm = () => {
 </script>
 
 <template>
-  <div :class="['add-todo-container', { 'slide-up': store.addTodoForm }]">
-    <hr />
-    <div class="form-header">
-      <v-btn icon @click="disableAddTodoForm" variant="plain" class="back-btn">
+  <div :class="['add-todo__container', { 'add-todo__container--slide-up': store.addTodoForm }]">
+    <hr class="add-todo__divider" />
+    <div class="add-todo__header">
+      <v-btn icon @click="disableAddTodoForm" variant="plain" class="add-todo__back-btn">
         <img src="@/assets/arrow.svg" alt="arrow"/>
       </v-btn>
-      <h1>Add ToDo</h1>
+      <h1 class="add-todo__title">Add ToDo</h1>
     </div>
 
-    <div class="todo-items">
+    <div class="add-todo__item">
       <v-text-field
-        v-model="task"
+        v-model="todo.task"
         placeholder="New Todo"
         variant="solo"
         hide-details
         color="white"
-        class="input-field"
+        class="add-todo__input"
       />
     </div>
 
-    <div class="todo-items">
+    <div class="add-todo__item">
       <v-select
-        v-model="user"
+        v-model="todo.user"
         :items="[
           {title: 'User 1', value: 1},
           {title: 'User 2', value: 2},
@@ -63,17 +67,17 @@ const disableAddTodoForm = () => {
         variant="solo"
         hide-details
         color="white"
-        class="input-field"
+        class="add-todo__input"
       >
         <template #append-inner>
-          <v-img src="@/assets/Vector.svg" alt="dropdown" class="icon-16" />
+          <v-img src="@/assets/Vector.svg" alt="dropdown" class="add-todo__icon--16" />
         </template>
       </v-select>
     </div>
 
-    <div class="todo-items">
+    <div class="add-todo__item">
       <v-select
-        v-model="completed"
+        v-model="todo.completed"
         :items="[
           { title: 'Open', value: false },
           { title: 'Closed', value: true }
@@ -82,20 +86,20 @@ const disableAddTodoForm = () => {
         variant="solo"
         hide-details
         color="white"
-        class="input-field"
+        class="add-todo__input"
       >
         <template #append-inner>
-          <v-img src="@/assets/Vector.svg" alt="dropdown" class="icon-16" />
+          <v-img src="@/assets/Vector.svg" alt="dropdown" class="add-todo__icon--16" />
         </template>
       </v-select>
     </div>
 
-    <div class="buttons">
-      <v-btn @click="addTodo" class="finish-button" block size="large">
+    <div class="add-todo__buttons">
+      <v-btn @click="addTodo" class="add-todo__btn--finish" block size="large">
         Finish
       </v-btn>
-      
-      <v-btn @click="disableAddTodoForm" class="quit-button" block size="large">
+
+      <v-btn @click="disableAddTodoForm" class="add-todo__btn--quit" block size="large">
         Quit
       </v-btn>
     </div>
@@ -103,7 +107,7 @@ const disableAddTodoForm = () => {
 </template>
 
 <style scoped>
-.add-todo-container {
+.add-todo__container {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -123,11 +127,11 @@ const disableAddTodoForm = () => {
   transition: transform 1.5s ease-in-out;
 }
 
-.add-todo-container.slide-up {
+.add-todo__container--slide-up {
   transform: translateY(0%);
 }
 
-.form-header {
+.add-todo__header {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -136,7 +140,7 @@ const disableAddTodoForm = () => {
   padding-top: 25px;
 }
 
-.form-header h1 {
+.add-todo__title {
   flex-grow: 1;
   text-align: center;
   font-size: 24px;
@@ -145,7 +149,7 @@ const disableAddTodoForm = () => {
   padding-right: 50px;
 }
 
-.todo-items {
+.add-todo__item {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -155,14 +159,14 @@ const disableAddTodoForm = () => {
   position: relative;
 }
 
-.input-field {
+.add-todo__input {
   width: 100%;
   background-color: #292639 !important;
   border-radius: 5px;
   color: white;
 }
 
-.buttons {
+.add-todo__buttons {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -171,23 +175,18 @@ const disableAddTodoForm = () => {
   margin-top: 20px;
 }
 
-.finish-button {
+.add-todo__btn--finish {
   background-color: #6add8a !important;
   color: white;
   margin-bottom: 10px;
 }
 
-.quit-button {
+.add-todo__btn--quit {
   background-color: #070417 !important;
   color: white;
 }
 
-img {
-  width: 24px;
-  height: 24px;
-} 
-
-hr {
+.add-todo__divider {
   height: 4px;
   width: 40px;
   margin: 0px auto;
@@ -197,11 +196,7 @@ hr {
   border-radius: 8px;
 }
 
-.icon-24 {
-  max-width: 24px;
-}
-
-.icon-16 {
+.add-todo__icon--16 {
   max-width: 16px;
 }
 </style>

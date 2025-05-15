@@ -1,13 +1,16 @@
-import { defineStore } from 'pinia'
+import { defineStore } from 'pinia';
+import type { Todo } from '~/models/todo'
 
-export interface Todo {
-  id: number
-  task: string
-  user: number
-  completed: boolean
-  dropdown: boolean
-}
+// export interface Todo {
+//   id: number
+//   task: string
+//   user: number
+//   completed: boolean
+//   dropdown: boolean
+// }
 
+
+// Created Todo model and imported, finish tomorrow
 export const useTodoListStore = defineStore('todoList', {
   state: () => ({
     todoList: [] as Todo[],
