@@ -3,7 +3,7 @@ export default defineNuxtConfig({
   compatibilityDate: '2024-11-01',
   devtools: { enabled: true },
   ssr: true,
-  pages: false,
+  pages: true,
 
   // when enabling ssr option you need to disable inlineStyles and maybe devLogs
   features: {
@@ -21,7 +21,7 @@ export default defineNuxtConfig({
     },
   },
 
-  css: ['@/assets/main.css'],
+  css: ['@/styles/main.css', '@/styles/global-forms.css'],
   modules: ['@nuxt/fonts', 'vuetify-nuxt-module', '@nuxt/eslint', '@pinia/nuxt'],
 
   vuetify: {

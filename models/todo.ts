@@ -1,7 +1,7 @@
 export interface Todo {
     id: number
     task: string
-    user: number
+    user: number | null
     completed: boolean
     dropdown: boolean
   }

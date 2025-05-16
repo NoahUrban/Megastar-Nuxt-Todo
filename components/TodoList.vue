@@ -3,7 +3,6 @@ import { useTodoListStore } from '~/stores/todo'
 import { onMounted, onBeforeUnmount } from 'vue'
 import type { Todo } from '~/models/todo'
 
-//imported model Todo, finish tomorrow
 const store = useTodoListStore()
 
 const handleScroll = () => {
@@ -147,15 +146,15 @@ const markCompleted = (todo: Todo) => {
 }
 
 .todo-list__chip {
-  height: 20px;
-  width: 50px;
+  height: 20px !important;
+  width: 50px !important;
   border-radius: 6px;
   margin-left: 10px;
   background-color: #3F3C4E;
   color: #BDBDBD;
-  font-size: 12px;
-  text-align: left;
-  padding-left: 7px;
+  font-size: 12px !important;
+  text-align: left !important;
+  padding-left: 7px !important;
 }
 
 .todo-list__dots {
